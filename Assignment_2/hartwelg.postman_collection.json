@@ -1,0 +1,869 @@
+{
+	"info": {
+		"_postman_id": "e25b7d2f-26de-4237-b80d-08621b29759b",
+		"name": "Assignment2",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "getPublicGists",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "c5b21189-ed34-4698-b448-f931aabd1f68",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "12d65d54-ef12-4780-b2dd-19644b3cdb93",
+						"exec": [
+							"pm.sendRequest(\"https://api.github.com/gists/public\", function(err, res) {\r",
+							"    if (err) {\r",
+							"        console.log(err);\r",
+							"    }\r",
+							"    else {\r",
+							"        var newGists = res.json().length;\r",
+							"        pm.test(\"Number of public gists >= 30\", function()\r",
+							"        {\r",
+							"            pm.expect(newGists).to.gte(30);\r",
+							"        });\r",
+							"        pm.test(\"Status code of response is 200\", function() {\r",
+							"            pm.expect(pm.response.to.have.status(200));\r",
+							"        });\r",
+							"    }\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.github.com/gists/public",
+					"protocol": "https",
+					"host": [
+						"api",
+						"github",
+						"com"
+					],
+					"path": [
+						"gists",
+						"public"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getWolfordjGist",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "8960aac9-c9ac-4ce1-b784-e65b86d62e2f",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "0c7c9264-bf51-45e1-bd2a-51c26a215f0e",
+						"exec": [
+							"pm.sendRequest(\"https://api.github.com/users/wolfordj/gists\", function(err, res) {\r",
+							"    if (err) {\r",
+							"        console.log(err);\r",
+							"    }\r",
+							"    else {\r",
+							"        var gists = res.json().length;\r",
+							"        pm.test(\"Wolfordj has at least 1 public gist\", function() {\r",
+							"            pm.expect(gists).to.gte(1);\r",
+							"        });\r",
+							"        pm.test(\"Status code of response is 200\", function() {\r",
+							"            pm.expect(pm.response.to.have.status(200));\r",
+							"        });\r",
+							"    }\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.github.com/users/wolfordj/gists",
+					"protocol": "https",
+					"host": [
+						"api",
+						"github",
+						"com"
+					],
+					"path": [
+						"users",
+						"wolfordj",
+						"gists"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getGistNum",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "1e357cf3-015a-4e42-938c-7c49920a321b",
+						"exec": [
+							"// var url = \"https://api.github.com/gists\";\r",
+							"// pm.sendRequest(url, function(err, res) {\r",
+							"//     if(err)\r",
+							"//     {\r",
+							"//         console.log(err);\r",
+							"//     }\r",
+							"//     else\r",
+							"//     {\r",
+							"//         pm.environment.set(\"prevGists\", res.json().length);\r",
+							"//         console.log(pm.environment.get(\"prevGists\"));\r",
+							"//         if (pm.environment.get(\"prevGists\") == null)\r",
+							"//         {\r",
+							"//             pm.environment.set(\"prevGists\", 0);\r",
+							"//         }\r",
+							"//     }\r",
+							"// });"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "0f331fcc-355c-44e3-823b-1470951027e4",
+						"exec": [
+							"var url = \"https://api.github.com/gists\";\r",
+							"pm.sendRequest(url, function(err, res) {\r",
+							"    if(err)\r",
+							"    {\r",
+							"        console.log(err);\r",
+							"    }\r",
+							"    else\r",
+							"    {\r",
+							"        // var curGists = pm.response.json().length;\r",
+							"        pm.environment.set(\"prevGists\", pm.response.json().length);\r",
+							"        // console.log(curGists);\r",
+							"        pm.test(\"Status code of response is 200\", function() {\r",
+							"            pm.expect(pm.response.to.have.status(200));\r",
+							"        });\r",
+							"    }\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.github.com/gists",
+					"protocol": "https",
+					"host": [
+						"api",
+						"github",
+						"com"
+					],
+					"path": [
+						"gists"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createNewGist",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "8d07310b-c7e1-4443-a336-8784ff068c2a",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "5a086798-3ba8-4f23-a87b-206c45fc265f",
+						"exec": [
+							"pm.sendRequest(\"https://api.github.com/gists\", function(err, res) {\r",
+							"    if (err) {\r",
+							"        console.log(err);\r",
+							"    }\r",
+							"    else {\r",
+							"        pm.environment.set(\"gistID\", pm.response.json().id);\r",
+							"        pm.test(\"Status code of response is 201\", function() {\r",
+							"            pm.expect(pm.response.to.have.status(201));\r",
+							"        });\r",
+							"    }\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"files\": {\r\n        \"testing.txt\": {\r\n            \"content\": \"test file\"\r\n        }\r\n    },\r\n    \"description\": \"testing\",\r\n    \"public\": true\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.github.com/gists",
+					"protocol": "https",
+					"host": [
+						"api",
+						"github",
+						"com"
+					],
+					"path": [
+						"gists"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getNewGistNum",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "c8d51bc8-035b-4128-a93a-f0134f5cc0ab",
+						"exec": [
+							"pm.sendRequest(\"https://api.github.com/gists\", function(err, res) {\r",
+							"    if (err) {\r",
+							"        console.log(err);\r",
+							"    }\r",
+							"    else {\r",
+							"        var curGists = pm.response.json().length;\r",
+							"        pm.test(\"hartwelg public gists increased by 1\", function() {\r",
+							"            pm.expect(curGists).to.equal(pm.environment.get(\"prevGists\") + 1);\r",
+							"        });\r",
+							"        pm.test(\"Status code of response is 200\", function() {\r",
+							"            pm.expect(pm.response.to.have.status(200));\r",
+							"        });\r",
+							"    }\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.github.com/gists",
+					"protocol": "https",
+					"host": [
+						"api",
+						"github",
+						"com"
+					],
+					"path": [
+						"gists"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "verifyGistContents",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "c72f67cc-b977-4f08-9712-aaf098863a48",
+						"exec": [
+							"var url = \"https://api.github.com/gists\";",
+							"pm.sendRequest(url, function(err, res) {",
+							"    if(err)",
+							"    {",
+							"        console.log(err);",
+							"    }",
+							"    else",
+							"    {",
+							"        pm.environment.set(\"public\", res.json()[0].public);",
+							"        pm.environment.set(\"desc\", res.json()[0].description);",
+							"        pm.environment.set(\"fileName\", res.json()[0].files);",
+							"    }",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "532fa1f9-6a1b-48e7-a507-08fad849e539",
+						"exec": [
+							"pm.sendRequest(\"https://api.github.com/gists/\" + pm.environment.get(\"gistID\"), function(err, res) {",
+							"    if (err) {",
+							"        console.log(err);",
+							"    }",
+							"    else {",
+							"        var fileNames = Object.keys(pm.environment.get(\"fileName\"));",
+							"        pm.test(\"descriptions match\", function() {",
+							"            pm.expect(pm.environment.get(\"desc\")).to.equal(\"testing\");",
+							"        });",
+							"        pm.test(\"public value matches\", function() {",
+							"            pm.expect(pm.environment.get(\"public\")).to.equal(true);",
+							"        });",
+							"        pm.test(\"file names match\", function() {",
+							"            pm.expect(fileNames[0]).to.equal(\"testing.txt\");",
+							"        });",
+							"        pm.test(\"Status code of response is 200\", function() {",
+							"            pm.expect(pm.response.to.have.status(200));",
+							"        });",
+							"    }",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.github.com/gists/{{gistID}}",
+					"protocol": "https",
+					"host": [
+						"api",
+						"github",
+						"com"
+					],
+					"path": [
+						"gists",
+						"{{gistID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "editGist",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "670ba0c0-d17b-455d-a5c7-5d4da888e42a",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "a05fd4d4-bf6c-450b-aef1-c766e02e8902",
+						"exec": [
+							"pm.sendRequest(\"https://api.github.com/gists/\" + pm.environment.get(\"gistID\"), function(err, res) {\r",
+							"    if (err) {\r",
+							"        console.log(err);\r",
+							"    }\r",
+							"    else {\r",
+							"        // pm.environment.set(\"desc\", res.json().description);\r",
+							"        // pm.test(\"description matches new value\", function() {\r",
+							"        //     pm.expect(pm.environment.get(\"desc\")).to.equal(\"testing1234\");\r",
+							"        // });\r",
+							"        pm.test(\"Status code of response is 200\", function() {\r",
+							"            pm.expect(pm.response.to.have.status(200));\r",
+							"        });\r",
+							"    }\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"description\": \"testing1234\"\r\n}"
+				},
+				"url": {
+					"raw": "https://api.github.com/gists/{{gistID}}",
+					"protocol": "https",
+					"host": [
+						"api",
+						"github",
+						"com"
+					],
+					"path": [
+						"gists",
+						"{{gistID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getNewGistDesc",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "c1b3603e-74a6-4dca-b440-047c16347073",
+						"exec": [
+							"pm.sendRequest(\"https://api.github.com/gists/\" + pm.environment.get(\"gistID\"), function(err, res) {\r",
+							"    if (err) {\r",
+							"        console.log(err);\r",
+							"    }\r",
+							"    else {\r",
+							"        pm.environment.set(\"newDesc\", res.json().description);\r",
+							"    }\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "bf8aa461-820e-406c-9f70-25c9421edea0",
+						"exec": [
+							"pm.sendRequest(\"https://api.github.com/gists/\" + pm.environment.get(\"gistID\"), function(err, res) {\r",
+							"    if (err) {\r",
+							"        console.log(err);\r",
+							"    }\r",
+							"    else {\r",
+							"        // pm.environment.set(\"desc\", res.json().description);\r",
+							"        pm.test(\"description matches new value\", function() {\r",
+							"            pm.expect(pm.environment.get(\"newDesc\")).to.equal(\"testing1234\");\r",
+							"        });\r",
+							"        pm.test(\"Status code of response is 200\", function() {\r",
+							"            pm.expect(pm.response.to.have.status(200));\r",
+							"        });\r",
+							"    }\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.github.com/gists/{{gistID}}",
+					"protocol": "https",
+					"host": [
+						"api",
+						"github",
+						"com"
+					],
+					"path": [
+						"gists",
+						"{{gistID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getGistStar",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f165b42d-dbe4-47db-8ab6-852599c3b8ee",
+						"exec": [
+							"pm.sendRequest(\"https://api.github.com/gists\" + pm.environment.get(\"gistID\"), function(err, res) {\r",
+							"    if (err) {\r",
+							"        console.log(err);\r",
+							"    }\r",
+							"    else {\r",
+							"        pm.test(\"Status code of response is 404\", function() {\r",
+							"            pm.expect(pm.response.to.have.status(404));\r",
+							"        });\r",
+							"    }\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.github.com/gists/{{gistID}}/star",
+					"protocol": "https",
+					"host": [
+						"api",
+						"github",
+						"com"
+					],
+					"path": [
+						"gists",
+						"{{gistID}}",
+						"star"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "starGist",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "4f40e48e-aa52-4608-8219-cd62c5ee435d",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "d975be2e-2a09-4db3-967f-733acfaecb38",
+						"exec": [
+							"pm.sendRequest(\"https://api.github.com/gists\" + pm.environment.get(\"gistID\"), function(err, res) {\r",
+							"    if (err) {\r",
+							"        console.log(err);\r",
+							"    }\r",
+							"    else {\r",
+							"        pm.test(\"Status code of response is 204\", function() {\r",
+							"            pm.expect(pm.response.to.have.status(204));\r",
+							"        });\r",
+							"    }\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "https://api.github.com/gists/{{gistID}}/star",
+					"protocol": "https",
+					"host": [
+						"api",
+						"github",
+						"com"
+					],
+					"path": [
+						"gists",
+						"{{gistID}}",
+						"star"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getStarredGist",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ad2396c2-a261-4b8e-bbee-b7ad518077a7",
+						"exec": [
+							"pm.sendRequest(\"https://api.github.com/gists\" + pm.environment.get(\"gistID\"), function(err, res) {\r",
+							"    if (err) {\r",
+							"        console.log(err);\r",
+							"    }\r",
+							"    else {\r",
+							"        pm.test(\"Status code of response is 200\", function() {\r",
+							"            pm.expect(pm.response.to.have.status(200));\r",
+							"        });\r",
+							"    }\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.github.com/gists/starred",
+					"protocol": "https",
+					"host": [
+						"api",
+						"github",
+						"com"
+					],
+					"path": [
+						"gists",
+						"starred"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "removeGistStar",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "34ae25d9-9165-4caa-9922-c8ccd194cdc0",
+						"exec": [
+							"pm.sendRequest(\"https://api.github.com/gists\" + pm.environment.get(\"gistID\"), function(err, res) {\r",
+							"    if (err) {\r",
+							"        console.log(err);\r",
+							"    }\r",
+							"    else {\r",
+							"        pm.test(\"Status code of response is 204\", function() {\r",
+							"            pm.expect(pm.response.to.have.status(204));\r",
+							"        });\r",
+							"    }\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://api.github.com/gists/{{gistID}}/star",
+					"protocol": "https",
+					"host": [
+						"api",
+						"github",
+						"com"
+					],
+					"path": [
+						"gists",
+						"{{gistID}}",
+						"star"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getGistToDelete",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e16fd1fc-aa9c-4793-b053-e7d164e85a23",
+						"exec": [
+							"pm.sendRequest(\"https://api.github.com/gists/\" + pm.environment.get(\"gistID\"), function(err, res) {\r",
+							"    if (err) {\r",
+							"        console.log(err);\r",
+							"    }\r",
+							"    else {\r",
+							"        pm.test(\"Status code of response is 200\", function() {\r",
+							"            pm.expect(pm.response.to.have.status(200));\r",
+							"        });\r",
+							"    }\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.github.com/gists/{{gistID}}",
+					"protocol": "https",
+					"host": [
+						"api",
+						"github",
+						"com"
+					],
+					"path": [
+						"gists",
+						"{{gistID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deleteGist",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "7edfeeb9-4ce2-42f3-ae42-a14c09087da7",
+						"exec": [
+							"pm.sendRequest(\"https://api.github.com/gists\", function(err, res) {\r",
+							"    if (err) {\r",
+							"        console.log(err);\r",
+							"    }\r",
+							"    else {\r",
+							"        pm.test(\"Status code of response is 204\", function() {\r",
+							"            pm.expect(pm.response.to.have.status(204));\r",
+							"        });\r",
+							"    }\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "61d7cc9d-b8aa-4aa3-82cd-28109e5b32f4",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://api.github.com/gists/{{gistID}}",
+					"protocol": "https",
+					"host": [
+						"api",
+						"github",
+						"com"
+					],
+					"path": [
+						"gists",
+						"{{gistID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "cleanup",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "c5969923-8df7-4bc9-953a-e193d1ed5d88",
+						"exec": [
+							"pm.environment.unset(\"public\");\r",
+							"pm.environment.unset(\"desc\");\r",
+							"pm.environment.unset(\"fileName\");\r",
+							"pm.environment.unset(\"prevGists\");\r",
+							"pm.environment.unset(\"gistID\");\r",
+							"pm.environment.unset(\"newDesc\");\r",
+							"pm.environment.unset(\"Username\");"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "3fa786d7-a313-4295-88cf-4a19772af6f3",
+						"exec": [
+							"pm.sendRequest(\"https://api.github.com/gists/public\", function(err, res) {\r",
+							"    if (err) {\r",
+							"        console.log(err);\r",
+							"    }\r",
+							"    else {\r",
+							"        pm.test(\"Status code of response is 200\", function() {\r",
+							"            pm.expect(pm.response.to.have.status(200));\r",
+							"        });\r",
+							"    }\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.github.com/gists",
+					"protocol": "https",
+					"host": [
+						"api",
+						"github",
+						"com"
+					],
+					"path": [
+						"gists"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "3f1e0b5d-571f-4ac2-b70c-2615f4b1e490",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "db28f88e-7198-4837-9ca3-068878657c12",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
