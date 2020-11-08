@@ -1,1 +1,10 @@
 http://hartwelg-hw5-gae.appspot.com
+
+TO USE LOCALLY
+
+  Windows:
+    Open admin command prompt (Win+x, a)
+    Input command "Python -m venv env (shift+enter) env/Scripts/activate"
+    Navigate to directory containing source code for this project
+    Input command "Python main.py"
+    Enter "http://localhost:8080" in browser
